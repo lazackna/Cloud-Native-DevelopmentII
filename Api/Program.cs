@@ -1,4 +1,6 @@
+using DataAccess.SqlLite;
 using MediatR;
+using Logic;
 
 namespace Api
 {
@@ -20,12 +22,21 @@ namespace Api
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
+			builder.Services.SetupApplication();
+			builder.Services.SetupDataAccessSqlLite();
+
 			initializeMediatR(builder);
 
 			var app = builder.Build();
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<SqlLiteDataContext>();
+                dbContext.Database.EnsureCreated();
+            }
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();
 				app.UseSwaggerUI();
