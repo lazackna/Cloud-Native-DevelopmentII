@@ -13,7 +13,6 @@ namespace DataAccess.Configuration
     {
         public void Configure(EntityTypeBuilder<Weather> builder)
         {
-            //throw new NotImplementedException();
             builder.HasKey(e => e.Name);
         }
     }
