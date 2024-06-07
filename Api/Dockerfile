@@ -7,7 +7,11 @@ EXPOSE 443
 # Use the official .NET 7.0 SDK image to build the application
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Api.csproj", "."]
+COPY ["Api.csproj", "Api/"]
+COPY ["Application/Domain.csproj", "Api/Domain"]
+COPY ["Application/Logic.csproj", "Api/Logic"]
+COPY ["Infrastructure/DataAccess.csproj", "Api/DataAccess"]
+COPY ["Infrastructure/DataAccess.SqlLite.csproj", "Api/DataAccess.SqlLite"]
 RUN dotnet restore "./Api.csproj"
 COPY . .
 WORKDIR "/src/."
