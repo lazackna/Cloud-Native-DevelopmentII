@@ -11,7 +11,7 @@ COPY ["Api.csproj", "Api/"]
 COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["Logic/Logic.csproj", "Logic/"]
 COPY ["DataAccess/DataAccess.csproj", "DataAccess/"]
-COPY ["DataAccess.SqlLite/DataAccess.SqlLite.csproj", "DataAccess.SqlLite/"]
+COPY ["DataAccessSqlLite/DataAccess.SqlLite.csproj", "DataAccess.SqlLite/"]
 RUN dotnet restore "./Api.csproj"
 COPY . .
 WORKDIR "/src/."
