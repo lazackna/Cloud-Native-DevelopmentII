@@ -1,14 +1,9 @@
 using DataAccess.SqlLite;
-using MediatR;
 using Logic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api
 {
-	public class Pong { }
-	public class Ping : IRequest<Pong>
-	{
-
-	}
 	public class Program
 	{
 		public Program(string[] args)
@@ -25,14 +20,13 @@ namespace Api
 			builder.Services.SetupApplication();
 			builder.Services.SetupDataAccessSqlLite();
 
-			initializeMediatR(builder);
-
 			var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<SqlLiteDataContext>();
                 dbContext.Database.EnsureCreated();
+                dbContext.Database.Migrate();
             }
 
             // Configure the HTTP request pipeline.
@@ -51,16 +45,6 @@ namespace Api
 
 			app.Run();
 		}
-
-
-		private void initializeMediatR(WebApplicationBuilder builder)
-		{
-			builder.Services.AddMediatR(cfg =>
-			{
-				cfg.RegisterServicesFromAssemblies(typeof(Ping).Assembly);
-			});
-		}
-
 
 		public static void Main(string[] args)
 		{

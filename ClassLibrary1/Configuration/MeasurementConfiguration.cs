@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Configuration
 {
-    public class WeatherConfiguration : IEntityTypeConfiguration<Weather>
+    public class MeasurementConfiguration : IEntityTypeConfiguration<MeasurementData>
     {
-        public void Configure(EntityTypeBuilder<Weather> builder)
+        public void Configure(EntityTypeBuilder<MeasurementData> builder)
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.AtmosPressure).IsRequired();
             builder.Property(e => e.WindSpeed).IsRequired();
             builder.Property(e => e.Temperature).IsRequired();
             builder.Property(e => e.WindDirection).IsRequired();
+            builder.Property(e => e.SeasonId).IsRequired();
         }
     }
 }

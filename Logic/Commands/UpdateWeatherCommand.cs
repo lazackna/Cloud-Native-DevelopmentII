@@ -1,14 +1,15 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Entities
+namespace Logic.Commands
 {
-    public class Weather
+    public class UpdateWeatherCommand : IRequest<bool>
     {
-        public Weather(int id, float temperature, float windSpeed, float windDirection, float atmosPressure)
+        public UpdateWeatherCommand(int id, float temperature, float windSpeed, float windDirection, float atmosPressure)
         {
             this.Id = id;
             this.Temperature = temperature;
@@ -17,8 +18,13 @@ namespace DataAccess.Entities
             this.AtmosPressure = atmosPressure;
         }
 
-        public Weather()
+        public UpdateWeatherCommand(int id, UpdateWeatherRequest request)
         {
+            this.Id = id;
+            this.Temperature = request.Temperature;
+            this.WindSpeed = request.WindSpeed;
+            this.WindDirection = request.WindDirection;
+            this.AtmosPressure = request.AtmosPressure;
         }
 
         public int Id { get; set; }

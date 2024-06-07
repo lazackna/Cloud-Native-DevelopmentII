@@ -12,45 +12,29 @@ namespace DataAccess.SqlLite.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+        
             migrationBuilder.CreateTable(
-                name: "Books",
+                name: "Weather",
                 columns: table => new
                 {
-                    ISBN = table.Column<string>(type: "TEXT", nullable: false),
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    Author = table.Column<string>(type: "TEXT", nullable: false),
-                    Pages = table.Column<int>(type: "INTEGER", nullable: false),
-                    Website = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+            .Annotation("Sqlite:Autoincrement", true),
+                    Temperature = table.Column<float>(type: "REAL", nullable: false),
+                    WindSpeed = table.Column<float>(type: "REAL", nullable: false),
+                    WindDirection = table.Column<float>(type: "REAL", nullable: false),
+                    AtmosPressure = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Books", x => x.ISBN);
+                    table.PrimaryKey("PK_Weather", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Games",
-                columns: table => new
-                {
-                    Title = table.Column<string>(type: "TEXT", nullable: false),
-                    ReleaseDate = table.Column<string>(type: "TEXT", nullable: false),
-                    Team = table.Column<string>(type: "TEXT", nullable: false),
-                    Rating = table.Column<string>(type: "REAL", nullable: false),
-                    Genre = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GAMES", x => x.Title);
-                }
-                );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Books");
-            migrationBuilder.DropTable(
-                name: "Games");
+                name: "Weather");
         }
     }
 }

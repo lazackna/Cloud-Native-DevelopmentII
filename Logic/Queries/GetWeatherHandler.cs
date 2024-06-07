@@ -22,7 +22,7 @@ namespace Logic.Queries
         public Task<List<ApiWeather>> Handle(GetWeatherRequest request, CancellationToken cancellationToken)
         {
             return _context.WeatherData.Select(b => new ApiWeather(
-                b.Name)).ToListAsync(cancellationToken);
+                b.Id, b.Temperature, b.WindSpeed, b.WindDirection, b.AtmosPressure)).ToListAsync(cancellationToken);
         }
     }
 }

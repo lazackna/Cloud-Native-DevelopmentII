@@ -4,11 +4,28 @@ namespace Domain
 {
     public class ApiWeather
     {
-        public ApiWeather(string name) 
+        public ApiWeather(int id, float temperature, float windSpeed, float windDirection, float atmosPressure)
         {
-            Name = name;
+            this.Id = id;
+            this.Temperature = temperature;
+            this.WindSpeed = windSpeed;
+            this.WindDirection = windDirection;
+            this.AtmosPressure = atmosPressure;
         }
+
         [Required]
-        public string Name { get; set; }
+        public int Id { get; set; }
+
+        [Required]
+        public float Temperature { get; set; }
+
+        [Required]
+        public float WindSpeed { get; set; }
+
+        [Required]
+        public float WindDirection { get; set; }
+
+        [Required]
+        public float AtmosPressure { get; set; }
     }
 }
