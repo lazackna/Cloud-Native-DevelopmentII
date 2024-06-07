@@ -7,18 +7,23 @@ EXPOSE 443
 # Use the official .NET 7.0 SDK image to build the application
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Api.csproj", "Api/"]
-COPY ["Application/Domain/Domain.csproj", "Api/Domain"]
-COPY ["Application/Logic/Logic.csproj", "Api/Logic"]
-COPY ["Infrastructure/DataAccess/DataAccess.csproj", "Api/DataAccess"]
-COPY ["Infrastructure/DataAccess.SqlLite/DataAccess.SqlLite.csproj", "Api/DataAccess.SqlLite"]
-RUN dotnet restore "./Api.csproj"
+
+# Copy and restore solution files
+COPY *.sln .
+COPY ["Api/Api.csproj", "Api/"]
+COPY ["DataAccess.SqlLite/DataAccess.SqlLite.csproj", "DataAccess.SqlLite/"]
+# Add other class library projects if needed
+
+RUN dotnet restore
+
+# Copy the entire solution and build
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/Api"
 RUN dotnet build "Api.csproj" -c Release -o /app/build
 
+# Use the build output from the previous stage
 FROM build AS publish
-RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Api.csproj" -c Release -o /app/publish
 
 # Use the base runtime image to run the application
 FROM base AS final
