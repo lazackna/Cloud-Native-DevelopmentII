@@ -8,10 +8,10 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Api.csproj", "Api/"]
-COPY ["Application/Domain.csproj", "Api/Domain"]
-COPY ["Application/Logic.csproj", "Api/Logic"]
-COPY ["Infrastructure/DataAccess.csproj", "Api/DataAccess"]
-COPY ["Infrastructure/DataAccess.SqlLite.csproj", "Api/DataAccess.SqlLite"]
+COPY ["Application/Domain/Domain.csproj", "Api/Domain"]
+COPY ["Application/Logic/Logic.csproj", "Api/Logic"]
+COPY ["Infrastructure/DataAccess/DataAccess.csproj", "Api/DataAccess"]
+COPY ["Infrastructure/DataAccess.SqlLite/DataAccess.SqlLite.csproj", "Api/DataAccess.SqlLite"]
 RUN dotnet restore "./Api.csproj"
 COPY . .
 WORKDIR "/src/."
