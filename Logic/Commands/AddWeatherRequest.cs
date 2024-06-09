@@ -18,6 +18,14 @@ namespace Logic.Commands
             this.AtmosPressure = atmosPressure;
         }
 
+        public AddWeatherRequest(ApiWeather weather)
+        {
+            this.Temperature = weather.Temperature;
+            this.WindSpeed = weather.WindSpeed;
+            this.WindDirection = weather.WindDirection;
+            this.AtmosPressure = weather.AtmosPressure;
+        }
+
         public float Temperature { get; set; }
         public float WindSpeed { get; set; }
         public float WindDirection { get; set; }

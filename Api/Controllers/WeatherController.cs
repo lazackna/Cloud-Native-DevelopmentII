@@ -9,22 +9,23 @@ namespace Api.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]
-	public class WeatherForecastController : ControllerBase
+	public class WeatherController : ControllerBase
 	{
-		private static readonly string[] Summaries = new[]
-		{
-		"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-	};
 
-		private readonly ILogger<WeatherForecastController> _logger;
+		private readonly ILogger<WeatherController> _logger;
 		private IMediator _mediator;
 
-		public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator m)
+		public WeatherController(ILogger<WeatherController> logger, IMediator m)
 		{
 			_logger = logger;
 			_mediator = m;
 		}
 
+        /// <summary>
+        /// Used to retrieve all entries
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
 		[HttpGet]
 		[ProducesResponseType(200, Type = typeof(List<ApiWeather>))]
 		public async Task<IActionResult> GetAllWeatherAsync(CancellationToken cancellationToken)
@@ -32,6 +33,12 @@ namespace Api.Controllers
 			return Ok(await _mediator.Send(new GetWeatherRequest(), cancellationToken));
 		}
 
+        /// <summary>
+        /// Used to delete a specific entry by sending an ID
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> DeleteWeatherAsync([FromBody]DeleteWeatherCommand request, CancellationToken cancellationToken)
         {
@@ -50,6 +57,12 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Used to create a new entry to be saved in the database
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(201)]
         public async Task<IActionResult> CreateWeatherAsync([FromBody] AddWeatherRequest request, CancellationToken cancellationToken)
@@ -79,6 +92,14 @@ namespace Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Used to update the data of a specific entry with the given ID
+        /// If id is not valid nothing will happen
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateWeatherAsync(int id, [FromBody] UpdateWeatherRequest request, CancellationToken cancellationToken)
         {
